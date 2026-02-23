@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pitch Skills — Build a pitch that gets funded</title>
+    <meta
+      name="description"
+      content="A structured pitch system for startup founders preparing to raise capital."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      :root {
+        --bg: #07080d;
+        --surface: #0f111a;
+        --surface-2: #141826;
+        --text: #f5f7ff;
+        --muted: #9ea7c3;
+        --line: #232942;
+        --accent: #7c9dff;
+        --accent-2: #2af0c6;
+        --max: 1120px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(1200px 500px at 12% 2%, rgba(124,157,255,.2), transparent 60%),
+                    radial-gradient(900px 450px at 88% 10%, rgba(42,240,198,.12), transparent 60%),
+                    var(--bg);
+        font-family: "Sora", sans-serif;
+        line-height: 1.6;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+        mask-image: radial-gradient(circle at 50% 10%, #000 40%, transparent 100%);
+        z-index: -2;
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: .15;
+        background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+        background-size: 3px 3px;
+        z-index: -1;
+      }
+      .wrap { max-width: var(--max); margin: 0 auto; padding: 0 1.1rem; }
+      .nav {
+        position: sticky; top: 0; z-index: 40;
+        background: rgba(7,8,13,.76);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav .wrap { display: flex; justify-content: space-between; align-items: center; min-height: 66px; }
+      .brand { font-weight: 800; letter-spacing: .3px; }
+      .brand span { color: var(--accent-2); }
+      .nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; font-size: .95rem; }
+      .nav a:hover { color: var(--text); }
+
+      section { padding: 4.3rem 0; }
+      .hero { padding-top: 6.6rem; }
+      .eyebrow { font-family: "IBM Plex Mono", monospace; color: var(--accent-2); font-size: .9rem; letter-spacing: .4px; }
+      h1 { font-size: clamp(2rem, 8vw, 4.3rem); line-height: 1.04; margin: .2rem 0 .8rem; }
+      h2 { font-size: clamp(1.4rem, 4.2vw, 2.2rem); margin: 0 0 .8rem; }
+      .sub { color: var(--muted); max-width: 70ch; }
+      .hero p { margin: .55rem 0; }
+      .cta-row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.35rem; }
+      .btn {
+        display: inline-flex; gap: .55rem; align-items: center;
+        border-radius: 12px; text-decoration: none; font-weight: 600;
+        padding: .75rem 1rem; border: 1px solid var(--line); color: var(--text);
+        transition: transform .22s ease, border-color .22s ease;
+      }
+      .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+      .btn.primary { background: linear-gradient(135deg, #7c9dff 0%, #6f84ff 100%); color: #07080d; border: none; }
+      .terminal {
+        margin-top: 2rem; border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+        background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      }
+      .terminal-head { display: flex; justify-content: space-between; align-items: center; padding: .65rem .85rem; border-bottom: 1px solid var(--line); }
+      .dots { display: flex; gap: .35rem; }
+      .dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+      .dots i:nth-child(1){background:#ff6f6f}.dots i:nth-child(2){background:#ffd166}.dots i:nth-child(3){background:#2af0c6}
+      .copy {
+        font-size: .82rem; color: var(--muted); border: 1px solid var(--line); background: transparent;
+        border-radius: 8px; padding: .3rem .55rem; cursor: pointer;
+      }
+      pre { margin: 0; padding: 1rem; font-family: "IBM Plex Mono", monospace; white-space: pre-wrap; color: #dce5ff; }
+      .bar {
+        border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+        background: rgba(20,24,38,.4);
+      }
+      .bar .wrap { display: grid; gap: .9rem; padding: .95rem 1.1rem; }
+      .stat { font-family: "IBM Plex Mono", monospace; color: #d6defa; }
+
+      .grid-3, .grid-2 { display: grid; gap: 1rem; }
+      .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .grid-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+      .card {
+        border: 1px solid var(--line); border-radius: 16px; padding: 1rem;
+        background: linear-gradient(170deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+      }
+      .card h3 { margin: .35rem 0 .35rem; font-size: 1rem; }
+      .muted { color: var(--muted); }
+      .icon {
+        width: 38px; height: 38px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center;
+        border: 1px solid #2d3555; background: rgba(124,157,255,.15);
+      }
+      blockquote { margin: 0; font-size: 1.02rem; }
+      .quote-author { margin-top: .65rem; font-size: .9rem; color: var(--muted); }
+      details {
+        border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1rem;
+        background: rgba(255,255,255,.01);
+      }
+      details + details { margin-top: .7rem; }
+      summary { cursor: pointer; font-weight: 600; }
+      .final {
+        text-align: center;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 2rem 1rem;
+        background: radial-gradient(700px 220px at 50% -20%, rgba(124,157,255,.25), transparent 70%), rgba(20,24,38,.45);
+      }
+      footer { border-top: 1px solid var(--line); padding: 1.8rem 0 2.3rem; }
+      .footer-links { display: flex; flex-wrap: wrap; gap: .9rem; }
+      .footer-links a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+      .footer-links a:hover { color: var(--text); }
+
+      [data-reveal] { opacity: 0; transform: translateY(16px); transition: .55s ease; }
+      [data-reveal].in { opacity: 1; transform: translateY(0); }
+      @media (max-width: 730px) {
+        .nav .hide-mobile { display: none; }
+        section { padding: 3.5rem 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap">
+        <div class="brand">Pitch<span>Skills</span></div>
+        <nav>
+          <a class="hide-mobile" href="#how">How it works</a>
+          <a class="hide-mobile" href="#faq">FAQ</a>
+          <a href="https://github.com/sofian-meguellati/pitch-skills" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="wrap" data-reveal>
+          <div class="eyebrow">Structured Pitch System · For Founders Raising Capital</div>
+          <h1>Build a pitch that gets funded</h1>
+          <p class="sub">A structured skill library for startup founders preparing for pre-seed &amp; seed raises.</p>
+          <p class="sub">When AI writes decks, code, and marketing, your pitch is your final human edge.</p>
+          <p class="sub">Show your taste. Clarify your narrative. Increase trust. Influence judgment.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="https://github.com/sofian-meguellati/pitch-skills" target="_blank" rel="noreferrer">
+              <i data-lucide="github"></i> View on GitHub
+            </a>
+            <a class="btn" href="https://stan.store/pitchsofian/p/pitchskills-founders-club" target="_blank" rel="noreferrer">
+              <i data-lucide="users"></i> Join pitch-skills founders club
+            </a>
+          </div>
+
+          <div class="terminal" aria-label="Pitch Skills preview block">
+            <div class="terminal-head">
+              <div class="dots"><i></i><i></i><i></i></div>
+              <button class="copy" id="copyBtn" type="button">Copy</button>
+            </div>
+            <pre id="snippet">$ founder.run("raise")
+→ Clarify narrative
+→ Signal traction
+→ Control Q&amp;A
+→ Increase conviction
+
+Result: stronger investor judgment.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="bar" aria-label="social proof">
+        <div class="wrap" data-reveal>
+          <div class="stat">600+ startups advised · $2.5M+ raised by alumni in the last 12 months (pre-seed)</div>
+        </div>
+      </section>
+
+      <section id="problem">
+        <div class="wrap" data-reveal>
+          <h2>The real problem isn’t your product. It’s your signal.</h2>
+          <p class="muted">Most startup founders build seriously, but pitch without narrative, clarity, or urgency. They over-explain features, under-signal traction, and lose control in Q&amp;A.</p>
+          <div class="grid-3" style="margin-top:1rem">
+            <article class="card"><h3>“Interesting, but no commitment.”</h3><p class="muted">You get positive feedback and no check.</p></article>
+            <article class="card"><h3>“Our pitch is too long.”</h3><p class="muted">Investors lose the thread before the ask lands.</p></article>
+            <article class="card"><h3>“Hard questions throw us off.”</h3><p class="muted">Q&amp;A exposes uncertainty even with a strong product.</p></article>
+          </div>
+          <p style="margin-top:1rem"><strong>Capital won’t follow average slide decks, but conviction and clarity.</strong></p>
+        </div>
+      </section>
+
+      <section id="how">
+        <div class="wrap" data-reveal>
+          <h2>How it works</h2>
+          <div class="grid-3">
+            <article class="card"><h3>1) Clarify the core</h3><p class="muted">Compress your problem and solution so investors understand it instantly.</p></article>
+            <article class="card"><h3>2) Signal what matters</h3><p class="muted">Structure your deck around traction, proof, and attention, not information overload.</p></article>
+            <article class="card"><h3>3) Prepare for the raise</h3><p class="muted">Preempt objections, structure your ask, rehearse performance, and control Q&amp;A with confidence.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap" data-reveal>
+          <h2>What you get</h2>
+          <div class="grid-2">
+            <article class="card"><span class="icon"><i data-lucide="blocks"></i></span><h3>13 Structured Pitch Skills</h3><p class="muted">Each skill isolates one capability: compression, traction signaling, raise logic, Q&amp;A control.</p></article>
+            <article class="card"><span class="icon"><i data-lucide="trending-up"></i></span><h3>Built for Demo Days &amp; VC Meetings</h3><p class="muted">Designed specifically for pre-seed and seed conversations.</p></article>
+            <article class="card"><span class="icon"><i data-lucide="shield"></i></span><h3>Objection &amp; Appendix System</h3><p class="muted">Turn Q&amp;A into leverage instead of risk.</p></article>
+            <article class="card"><span class="icon"><i data-lucide="blueprint"></i></span><h3>Raise Architecture Framework</h3><p class="muted">Clear ask structure tied to milestones and runway logic.</p></article>
+            <article class="card"><span class="icon"><i data-lucide="terminal-square"></i></span><h3>No Fluff Content</h3><p class="muted">Tactical frameworks you can apply immediately.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap" data-reveal>
+          <h2>Founder testimonials</h2>
+          <div class="grid-3">
+            <article class="card">
+              <blockquote>“Working with Sofian on pitch perfection prior to our raise was an amazing opportunity, changed my whole outlook.”</blockquote>
+              <div class="quote-author">$355k raised · Rishee A., CEO, FairScale</div>
+            </article>
+            <article class="card">
+              <blockquote>“Sofian is the pitch coach every founder needs.”</blockquote>
+              <div class="quote-author">$750k raised · Cesar S., Co-founder, SurfCash</div>
+            </article>
+            <article class="card">
+              <blockquote>“Serious pitching alpha shared by Sofian. Been taking notes nonstop for 45 minutes and continuing.”</blockquote>
+              <div class="quote-author">$420k raised · Jong C., CEO, Trepa</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="wrap" data-reveal>
+          <h2>FAQ</h2>
+          <details><summary>Is this for idea-stage founders?</summary><p class="muted">It’s built for founders actively preparing to pitch or raise.</p></details>
+          <details><summary>Is this only for VC fundraising?</summary><p class="muted">No. It applies to Demo Day, accelerators, angel meetings, and enterprise pitches.</p></details>
+          <details><summary>Is this theoretical?</summary><p class="muted">No. Every skill includes frameworks, failure modes, and drills.</p></details>
+          <details><summary>Can I get direct feedback?</summary><p class="muted">Yes. Founders Lounge members can submit their pitch and join live sessions.</p></details>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap" data-reveal>
+          <div class="final">
+            <h2 style="text-transform: lowercase;">your pitch is the turning point between what you've built and who you could become, make it legendary</h2>
+            <p class="muted">Structure your narrative. Reduce doubt. Increase conviction.</p>
+            <div class="cta-row" style="justify-content:center;">
+              <a class="btn primary" href="https://github.com/sofian-meguellati/pitch-skills" target="_blank" rel="noreferrer">Explore Pitch Skills</a>
+            </div>
+            <p class="muted" style="margin-top:.8rem; font-family:'IBM Plex Mono', monospace;">Open library · Used by 600+ founders</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap" data-reveal>
+        <div class="footer-links" aria-label="footer links">
+          <a href="#">About</a><a href="#">Blog</a><a href="https://github.com/sofian-meguellati/pitch-skills">Docs</a><a href="#">Privacy</a><a href="#">Terms</a>
+        </div>
+        <p class="muted">Structured pitch systems for founders who are raising.</p>
+        <div class="footer-links">
+          <a href="https://x.com/depitchsofian" target="_blank" rel="noreferrer">Twitter / X</a>
+          <a href="https://www.linkedin.com/in/sofianmeguellati/" target="_blank" rel="noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      const revealElements = document.querySelectorAll('[data-reveal]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('in');
+        });
+      }, { threshold: 0.12 });
+      revealElements.forEach((el) => observer.observe(el));
+
+      const copyBtn = document.getElementById('copyBtn');
+      const snippet = document.getElementById('snippet');
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(snippet.textContent);
+          copyBtn.textContent = 'Copied';
+          setTimeout(() => (copyBtn.textContent = 'Copy'), 1200);
+        } catch {
+          copyBtn.textContent = 'Failed';
+          setTimeout(() => (copyBtn.textContent = 'Copy'), 1200);
+        }
+      });
+    </script>
+  </body>
+</html>
